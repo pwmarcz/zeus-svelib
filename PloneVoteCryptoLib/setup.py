@@ -9,16 +9,15 @@ setup(name='PloneVoteCryptoLib',
       long_description="""\
 This library provides all basic cryptographic operations required by the PloneVote verifiable online voting system. (ToDo: Improve description)""",
       classifiers=[
-      		'Development Status :: 1 - Planning',
-      		'Intended Audience :: Developers',
-      		'License :: OSI Approved :: MIT License',
-      		'Natural Language :: English',
-      		'Operating System :: MacOS :: MacOS X',
-      		'Operating System :: Microsoft :: Windows',
-      		'Operating System :: POSIX :: Linux',
-      		'Programming Language :: Python :: 2.4',
-      		'Programming Language :: Python :: 2.6',
-      		'Topic :: Security :: Cryptography'], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
+                'Development Status :: 1 - Planning',
+                'Intended Audience :: Developers',
+                'License :: OSI Approved :: MIT License',
+                'Natural Language :: English',
+                'Operating System :: MacOS :: MacOS X',
+                'Operating System :: Microsoft :: Windows',
+                'Operating System :: POSIX :: Linux',
+                'Programming Language :: Python :: 2.7',
+                'Topic :: Security :: Cryptography'], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       keywords='cryptography, voting, library, PloneVote',
       author='Lazaro Clapp',
       author_email='lazaro.clapp@gmail.com',
@@ -27,9 +26,15 @@ This library provides all basic cryptographic operations required by the PloneVo
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
       zip_safe=False,
+      setup_requires=[
+          'pytest-runner',
+      ],
       install_requires=[
-      	  'pycryptodome >= 2.1.0'
-          # -*- Extra requirements: -*-
+          'pycryptodome >= 2.1.0',
+      ],
+      test_requires=[
+          'pytest',
+          'pytest-coverage',
       ],
       entry_points="""
       # -*- Entry points: -*-
