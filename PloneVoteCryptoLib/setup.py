@@ -28,7 +28,7 @@ This library provides all basic cryptographic operations required by the PloneVo
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-      	  'pycrypto >= 2.1.0'
+      	  'pycryptodome >= 2.1.0'
           # -*- Extra requirements: -*-
       ],
       entry_points="""
