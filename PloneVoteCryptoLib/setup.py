@@ -32,7 +32,7 @@ This library provides all basic cryptographic operations required by the PloneVo
       install_requires=[
           'pycryptodome >= 2.1.0',
       ],
-      test_requires=[
+      tests_require=[
           'pytest',
           'pytest-coverage',
       ],
