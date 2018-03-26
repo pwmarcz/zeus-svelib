@@ -1,0 +1,12 @@
+python:
+  - 2.7
+
+before_script:
+  - pip install codecov
+
+script:
+  - cd PloneVoteCryptoLib
+  - python setup.py test
+
+after_success:
+  - codecov
