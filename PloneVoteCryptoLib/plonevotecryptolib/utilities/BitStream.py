@@ -380,6 +380,15 @@ class BitStream:
         """
         return self.get_num(8)
 
+    def put_byte_string(self, string):
+        if six.PY2:
+            for char in string:
+                self.put_byte(ord(char))
+        else:
+            for byte in string:
+                self.put_byte(byte)
+
+
     def put_string(self, string):
         """
         Put the given string into the bitstream, this will automatically encode
@@ -396,15 +405,9 @@ class BitStream:
         if isinstance(string, six.text_type):
             string = string.encode('utf-8')
 
-        if six.PY2:
-            for char in string:
-                self.put_byte(ord(char))
-        else:
-            for byte in string:
-                self.put_byte(byte)
+        self.put_byte_string(string)
 
-
-    def get_string(self, bit_length):
+    def get_byte_string(self, bit_length):
         """
         Retrieve the next bit_length bits from the stream as a string.
 
@@ -425,17 +428,22 @@ class BitStream:
 
         if six.PY2:
             s = ""
-            bytes = bit_length // 8
-            for b in range(0, bytes):
+            nbytes = bit_length // 8
+            for b in range(0, nbytes):
                 s += chr(self.get_byte())
             return s
         else:
-            ba = bytearray()
-            bytes = bit_length // 8
-            for b in range(0, bytes):
-                ba.append(self.get_byte())
-            return ba.decode()
+            bs = []
+            nbytes = bit_length // 8
+            for b in range(0, nbytes):
+                bs.append(self.get_byte())
+            return bytes(bs)
 
+    def get_string(self, bit_length):
+        if six.PY2:
+            return self.get_byte_string(bit_length)
+        else:
+            return self.get_byte_string(bit_length).decode()
 
     def put_base64(self, base64_data):
         """
