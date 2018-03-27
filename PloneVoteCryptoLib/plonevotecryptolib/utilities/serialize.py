@@ -803,7 +803,11 @@ class XMLSerializer(BaseSerializer):
                 # return its string value. Removing padding whitespace 
                 # (e.g. '\n', '\t')
                 # We return the string as utf-8 instead of a unicode string
-                return child_nodes[0].nodeValue.strip().encode('utf-8')
+                s = child_nodes[0].nodeValue.strip()
+                if six.PY2:
+                    return s.encode('utf-8')
+                else:
+                    return s
             else:
                 # No element nodes as children and not a single text node as 
                 # dom_element's contents... this is invalid.
