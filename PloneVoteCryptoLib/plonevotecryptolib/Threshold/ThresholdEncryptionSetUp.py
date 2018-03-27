@@ -114,11 +114,11 @@ class ThresholdEncryptionSetUp:
 					"commitment.")
 					
 			for pub_coeff in commitment.public_coefficients:
-				fingerprint.update(hex(pub_coeff))
+				fingerprint.update(hex(pub_coeff).encode())
 			for ciphertext in commitment.encrypted_partial_private_keys:
 				for gamma, delta in ciphertext:
-					fingerprint.update(hex(gamma))
-					fingerprint.update(hex(delta))
+					fingerprint.update(hex(gamma).encode())
+					fingerprint.update(hex(delta).encode())
 					
 		return fingerprint.hexdigest()
 		

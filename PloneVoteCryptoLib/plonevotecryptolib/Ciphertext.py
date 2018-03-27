@@ -211,8 +211,8 @@ class Ciphertext:
         """
         fingerprint = Crypto.Hash.SHA256.new()
         for (gamma, delta) in self:
-            fingerprint.update(hex(gamma))
-            fingerprint.update(hex(delta))
+            fingerprint.update(hex(gamma).encode())
+            fingerprint.update(hex(delta).encode())
         return fingerprint.hexdigest()
     
     def __init__(self, nbits, public_key_fingerprint):

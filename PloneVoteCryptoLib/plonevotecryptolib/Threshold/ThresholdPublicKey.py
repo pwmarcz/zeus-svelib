@@ -79,12 +79,12 @@ class ThresholdPublicKey(PublicKey):
         # We override this PublicKey method to add partial public keys to the 
         # input of the hash function to create the fingerprint.
         fingerprint = Crypto.Hash.SHA256.new()
-        fingerprint.update(hex(self.cryptosystem.get_nbits()))
-        fingerprint.update(hex(self.cryptosystem.get_prime()))
-        fingerprint.update(hex(self.cryptosystem.get_generator()))
-        fingerprint.update(hex(self._key))
+        fingerprint.update(hex(self.cryptosystem.get_nbits()).encode())
+        fingerprint.update(hex(self.cryptosystem.get_prime()).encode())
+        fingerprint.update(hex(self.cryptosystem.get_generator()).encode())
+        fingerprint.update(hex(self._key).encode())
         for partial_public_key in self._partial_public_keys:
-            fingerprint.update(hex(partial_public_key))
+            fingerprint.update(hex(partial_public_key).encode())
         return fingerprint.hexdigest()
     
     def get_partial_public_key(self, trustee):

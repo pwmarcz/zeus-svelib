@@ -101,10 +101,10 @@ class PublicKey:
                                    of the current public key.
         """
         fingerprint = Crypto.Hash.SHA256.new()
-        fingerprint.update(hex(self.cryptosystem.get_nbits()))
-        fingerprint.update(hex(self.cryptosystem.get_prime()))
-        fingerprint.update(hex(self.cryptosystem.get_generator()))
-        fingerprint.update(hex(self._key))
+        fingerprint.update(hex(self.cryptosystem.get_nbits()).encode())
+        fingerprint.update(hex(self.cryptosystem.get_prime()).encode())
+        fingerprint.update(hex(self.cryptosystem.get_generator()).encode())
+        fingerprint.update(hex(self._key).encode())
         return fingerprint.hexdigest()
 
     def __eq__(self, other):

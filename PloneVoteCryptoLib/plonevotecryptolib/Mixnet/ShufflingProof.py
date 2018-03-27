@@ -208,19 +208,19 @@ class ShufflingProof:
 		
 		for ciphertext in original_collection:
 			for (gamma, delta) in ciphertext:
-				c.update(hex(gamma))
-				c.update(hex(delta))
+				c.update(hex(gamma).encode())
+				c.update(hex(delta).encode())
 		
 		for collection in self._collections:
 			for ciphertext in collection:
 				for (gamma, delta) in ciphertext:
-					c.update(hex(gamma))
-					c.update(hex(delta))
+					c.update(hex(gamma).encode())
+					c.update(hex(delta).encode())
 		
 		for ciphertext in shuffled_collection:
 			for (gamma, delta) in ciphertext:
-				c.update(hex(gamma))
-				c.update(hex(delta))
+				c.update(hex(gamma).encode())
+				c.update(hex(delta).encode())
 		
 		c.update(original_collection.public_key.get_fingerprint())
 		

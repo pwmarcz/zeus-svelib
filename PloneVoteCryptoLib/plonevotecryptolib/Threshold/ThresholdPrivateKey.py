@@ -223,10 +223,10 @@ class ThresholdPrivateKey:
             # considered as the partial public key of trustee j and the value 
             # of the later is unavailable at decryption combination time).
             sha256 =  Crypto.Hash.SHA256.new()
-            sha256.update(hex(a))
-            sha256.update(hex(b))
-            sha256.update(hex(pow(generator, 2*key, prime)))
-            sha256.update(hex(value))
+            sha256.update(hex(a).encode())
+            sha256.update(hex(b).encode())
+            sha256.update(hex(pow(generator, 2*key, prime)).encode())
+            sha256.update(hex(value).encode())
             c = int(sha256.hexdigest(),16)
             
             # t = s + 2P(j)*c mod p-1 (P(j): trustee j's threshold private key)

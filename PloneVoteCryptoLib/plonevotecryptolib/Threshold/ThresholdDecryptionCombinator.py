@@ -290,10 +290,10 @@ class ThresholdDecryptionCombinator:
 			
 			# Re-generate challenge c as SHA256(a, b, g^{2P(j)}, block)
 			sha256 =  Crypto.Hash.SHA256.new()
-			sha256.update(hex(a))
-			sha256.update(hex(b))
-			sha256.update(hex(ppub_key))
-			sha256.update(hex(pd_block.value))
+			sha256.update(hex(a).encode())
+			sha256.update(hex(b).encode())
+			sha256.update(hex(ppub_key).encode())
+			sha256.update(hex(pd_block.value).encode())
 			c = int(sha256.hexdigest(),16)
 			
 			# verify the proof, in two parts:
