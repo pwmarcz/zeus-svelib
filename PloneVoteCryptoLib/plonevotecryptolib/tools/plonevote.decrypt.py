@@ -28,6 +28,8 @@
 # THE SOFTWARE.
 # ============================================================================
 
+from __future__ import absolute_import
+from __future__ import print_function
 import sys
 import os.path
 import getopt
@@ -37,12 +39,13 @@ from plonevotecryptolib.Ciphertext import Ciphertext
 from plonevotecryptolib.utilities.BitStream import BitStream
 from plonevotecryptolib.utilities.TaskMonitor import TaskMonitor
 from plonevotecryptolib.PVCExceptions import *
+from six.moves import range
 
 def print_usage():
 	"""
 	Prints the tool's usage message
 	"""
-	print """USAGE:
+	print("""USAGE:
 		  
 		  plonevote.decrypt.py --key=private_key.pvprivkey --in=file.pvencrypted --out=file.ext
 		  
@@ -57,26 +60,26 @@ def print_usage():
 		  	--out=file.ext	: The destination (output) file that will contain the decrypted (original plaintext) data.
 		  	
 		  	--help|-h : Shows this message
-		  """
+		  """)
 	
 def run_tool(key_file, in_file, out_file):
 	"""
 	Runs the plonevote.decrypt tool and decrypts in_file into out_file.
 	"""
 	# Load the private key
-	print "Loading private key..."
+	print("Loading private key...")
 	try:
 		private_key = PrivateKey.from_file(key_file)
-	except InvalidPloneVoteCryptoFileError, e:
-		print "Invalid private key file (%s): %s" % (key_file, e.msg)
+	except InvalidPloneVoteCryptoFileError as e:
+		print("Invalid private key file (%s): %s" % (key_file, e.msg))
 		sys.exit(2)
 	
 	# Open the input encrypted data
-	print "Loading encrypted data..."
+	print("Loading encrypted data...")
 	try:
 		ciphertext = Ciphertext.from_file(in_file)
-	except InvalidPloneVoteCryptoFileError, e:
-		print "Invalid PloneVote encrypted file (%s): %s" % (key_file, e.msg)
+	except InvalidPloneVoteCryptoFileError as e:
+		print("Invalid PloneVote encrypted file (%s): %s" % (key_file, e.msg))
 		sys.exit(2)
 	
 	# Define callbacks for the TaskMonitor for monitoring the decryption process
@@ -90,8 +93,8 @@ def run_tool(key_file, in_file, out_file):
 								short_in_filename[-20,-1]
 	
 	def cb_task_percent_progress(task):
-		print "  %.2f%% of %s decrypted..." % \
-				(task.get_percent_completed(), short_in_filename)
+		print("  %.2f%% of %s decrypted..." % \
+				(task.get_percent_completed(), short_in_filename))
 	
 	# Create new TaskMonitor and register the callbacks
 	taskmon = TaskMonitor()
@@ -99,18 +102,18 @@ def run_tool(key_file, in_file, out_file):
 											 percent_span = 5)
 	
 	# Decrypt to bitstream
-	print "Decrypting..."	
+	print("Decrypting...")	
 	try:
 		bitstream = private_key.decrypt_to_bitstream(ciphertext, task_monitor = taskmon)
-	except IncompatibleCiphertextError, e:
-		print "Incompatible private key and ciphertext error: %s" % s.msg
+	except IncompatibleCiphertextError as e:
+		print("Incompatible private key and ciphertext error: %s" % s.msg)
 	
 	# Save the resulting plaintext to the output file
-	print "Writing decrypted data..."
+	print("Writing decrypted data...")
 	try:
 		out_f = open(out_file, 'wb')
-	except Exception, e:
-		print "Problem while opening output file %s: %s" % (out_file, e)
+	except Exception as e:
+		print("Problem while opening output file %s: %s" % (out_file, e))
 	
 	# Remember that the bitstream is in the format 
 	# [size (64 bits) | message (size bits) | padding]
@@ -118,11 +121,11 @@ def run_tool(key_file, in_file, out_file):
 	length = bitstream.get_num(64)
 	
 	try:
-		for i in range(0, length / 8):
+		for i in range(0, length // 8):
 			byte = bitstream.get_byte()
 			out_f.write(chr(byte))
-	except Exception, e:
-		print "Problem while writing to output file %s: %s" % (out_file, e)
+	except Exception as e:
+		print("Problem while writing to output file %s: %s" % (out_file, e))
 	
 	out_f.close()
 
@@ -133,9 +136,9 @@ def main():
     # parse command line options
 	try:
 		opts, args = getopt.getopt(sys.argv[1:], 'n', ['key=', 'in=', 'out='])
-	except getopt.error, msg:
-		print msg
-		print "for help use --help"
+	except getopt.error as msg:
+		print(msg)
+		print("for help use --help")
 		sys.exit(2)
 	
 	# process options
@@ -151,7 +154,7 @@ def main():
 		elif o == "--out":
 			out_file = a
 		else:
-			print "ERROR: Invalid argument: %d=%d\n" % (o, a)
+			print("ERROR: Invalid argument: %d=%d\n" % (o, a))
 			print_usage()
 			sys.exit(2)
 	

@@ -41,6 +41,7 @@
 # ============================================================================
 
 # Standard library imports
+from __future__ import absolute_import
 import unittest
 import copy
 import os
@@ -58,6 +59,7 @@ from plonevotecryptolib.utilities.TaskMonitor import TaskMonitor
 # Get Counter and Logger from TestTaskMonitor
 from plonevotecryptolib.tests.unit.utilities.TestTaskMonitor import \
                                         (Counter as Counter, Logger as Logger)
+from six.moves import range
     
 # ============================================================================
 # Helper functions and other definitions:
@@ -204,7 +206,7 @@ class TestThresholdEncryptionSetUp(unittest.TestCase):
         
         # Decrypt every partial private key and check that their values are in  
         # Z_{q}^*
-        q = (cryptosystem.get_prime() - 1) / 2  # p = 2q + 1                
+        q = (cryptosystem.get_prime() - 1) // 2  # p = 2q + 1                
         for i in range(self.num_trustees):
             priv_key = self.trustees[i].private_key
             

@@ -34,6 +34,8 @@
 # ============================================================================
 # Imports, skip this section to "Basic parameters"
 # ============================================================================
+from __future__ import absolute_import
+from __future__ import print_function
 from plonevotecryptolib.utilities.Enumerate import Enumerate
 
 
@@ -124,11 +126,11 @@ else:
 						SECURITY_LEVELS_ENUM.OVERKILL : 65536,
 						}[SECURITY_LEVEL]
 if(DEFAULT_KEY_SIZE < MINIMUM_KEY_SIZE):
-	print "Warning: Configuration error in params.py, the default key size " \
+	print("Warning: Configuration error in params.py, the default key size " \
 		  "(%d) is less than the minimum key size (%d), check " \
 		  "CUSTOM_DEFAULT_KEY_SIZE and CUSTOM_MINIMUM_KEY_SIZE. The default " \
 		  "key size will be set to the minimum key size value." %  \
-		  (DEFAULT_KEY_SIZE, MINIMUM_KEY_SIZE)
+		  (DEFAULT_KEY_SIZE, MINIMUM_KEY_SIZE))
 	DEFAULT_KEY_SIZE = MINIMUM_KEY_SIZE
 
 if(CUSTOM_FALSE_PRIME_PROBABILITY != None):

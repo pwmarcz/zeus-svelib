@@ -40,6 +40,7 @@
 # Imports and constant definitions:
 # ============================================================================
 
+from __future__ import absolute_import
 import xml.dom.minidom
 
 from plonevotecryptolib.EGCryptoSystem import EGCryptoSystem, EGStub
@@ -282,7 +283,7 @@ class PrivateKey:
         # Deserialize the PrivateKey instance from file
         try:
             data = serializer.deserialize_from_file(filename)
-        except serialize.InvalidSerializeDataError, e:
+        except serialize.InvalidSerializeDataError as e:
             # Convert the exception to an InvalidPloneVoteCryptoFileError
             raise InvalidPloneVoteCryptoFileError(filename, 
                 "File \"%s\" does not contain a valid private key. The " \

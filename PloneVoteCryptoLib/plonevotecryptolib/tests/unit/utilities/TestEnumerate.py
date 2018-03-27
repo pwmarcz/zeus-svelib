@@ -35,6 +35,7 @@
 # THE SOFTWARE.
 # ============================================================================
 
+from __future__ import absolute_import
 import unittest
 from plonevotecryptolib.utilities.Enumerate import Enumerate
 

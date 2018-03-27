@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from setuptools import setup, find_packages
 import sys, os
 
@@ -17,6 +18,7 @@ This library provides all basic cryptographic operations required by the PloneVo
                 'Operating System :: Microsoft :: Windows',
                 'Operating System :: POSIX :: Linux',
                 'Programming Language :: Python :: 2.7',
+                'Programming Language :: Python :: 3.6',
                 'Topic :: Security :: Cryptography'], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       keywords='cryptography, voting, library, PloneVote',
       author='Lazaro Clapp',

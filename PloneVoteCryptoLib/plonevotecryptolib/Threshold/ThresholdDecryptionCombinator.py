@@ -38,12 +38,14 @@
 # ============================================================================
 
 # Non crypto secure random, used only for shuffling lists of partial decryptions
+from __future__ import absolute_import
 import random
 
 import Crypto.Hash.SHA256	# sha256 is not available in python 2.4 standard lib
 
 from plonevotecryptolib.PVCExceptions import ElectionSecurityError
 from plonevotecryptolib.utilities.BitStream import BitStream
+from six.moves import range
 
 __all__ = ["ThresholdDecryptionCombinator", 
 		   "InsuficientPartialDecryptionsError"]
@@ -288,10 +290,10 @@ class ThresholdDecryptionCombinator:
 			
 			# Re-generate challenge c as SHA256(a, b, g^{2P(j)}, block)
 			sha256 =  Crypto.Hash.SHA256.new()
-			sha256.update(hex(a))
-			sha256.update(hex(b))
-			sha256.update(hex(ppub_key))
-			sha256.update(hex(pd_block.value))
+			sha256.update(hex(a).encode())
+			sha256.update(hex(b).encode())
+			sha256.update(hex(ppub_key).encode())
+			sha256.update(hex(pd_block.value).encode())
 			c = int(sha256.hexdigest(),16)
 			
 			# verify the proof, in two parts:
@@ -369,7 +371,7 @@ class ThresholdDecryptionCombinator:
 		nbits = self.cryptosystem.get_nbits()
 		prime = self.cryptosystem.get_prime()
 		#  prime = 2q + 1 with q prime by construction (see EGCryptoSystem).
-		q = (prime - 1) / 2
+		q = (prime - 1) // 2
 		
 		# See PublicKey.encrypt_bitstream for why we use nbits - 1 as the block 
 		# size.

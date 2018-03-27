@@ -42,6 +42,7 @@
 # THE SOFTWARE.
 # ============================================================================
 
+from __future__ import absolute_import
 import Crypto.Hash.SHA256	# sha256 is not available in python 2.4 standard lib
 
 # Use configuration parameters from params.py
@@ -54,6 +55,7 @@ from plonevotecryptolib.Mixnet.CiphertextCollectionMapping import CiphertextColl
 
 # Exceptions:
 from plonevotecryptolib.PVCExceptions import InvalidCiphertextCollectionMappingError
+from six.moves import range
 
 
 class ShufflingProof:
@@ -206,19 +208,19 @@ class ShufflingProof:
 		
 		for ciphertext in original_collection:
 			for (gamma, delta) in ciphertext:
-				c.update(hex(gamma))
-				c.update(hex(delta))
+				c.update(hex(gamma).encode())
+				c.update(hex(delta).encode())
 		
 		for collection in self._collections:
 			for ciphertext in collection:
 				for (gamma, delta) in ciphertext:
-					c.update(hex(gamma))
-					c.update(hex(delta))
+					c.update(hex(gamma).encode())
+					c.update(hex(delta).encode())
 		
 		for ciphertext in shuffled_collection:
 			for (gamma, delta) in ciphertext:
-				c.update(hex(gamma))
-				c.update(hex(delta))
+				c.update(hex(gamma).encode())
+				c.update(hex(delta).encode())
 		
 		c.update(original_collection.public_key.get_fingerprint())
 		

@@ -38,6 +38,8 @@
 # THE SOFTWARE.
 # ============================================================================
 
+from __future__ import absolute_import
+from six.moves import range
 class CiphertextCollection:
 	"""
 	An object representing an ordered collection of ciphertexts.

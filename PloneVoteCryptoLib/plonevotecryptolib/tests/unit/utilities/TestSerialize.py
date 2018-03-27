@@ -39,6 +39,7 @@
 # ============================================================================
 
 # Standard library imports
+from __future__ import absolute_import
 import unittest
 import os
 import tempfile
@@ -519,7 +520,7 @@ class TestSerialize(unittest.TestCase):
             
             try:
                 raise ExceptionCls(message)
-            except ExceptionCls, e:
+            except ExceptionCls as e:
                 was_raised = True
                 self.assertEqual(str(e), message)
                 

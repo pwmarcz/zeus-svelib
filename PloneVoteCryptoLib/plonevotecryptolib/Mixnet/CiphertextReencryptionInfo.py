@@ -40,11 +40,13 @@
 # ============================================================================
 
 # secure version of python's random:
+from __future__ import absolute_import
 from Crypto.Random.random import StrongRandom
 
 from plonevotecryptolib.Ciphertext import Ciphertext
 from plonevotecryptolib.PVCExceptions import IncompatibleCiphertextError
 from plonevotecryptolib.PVCExceptions import IncompatibleReencryptionInfoError
+from six.moves import range
 
 
 class CiphertextReencryptionInfo:

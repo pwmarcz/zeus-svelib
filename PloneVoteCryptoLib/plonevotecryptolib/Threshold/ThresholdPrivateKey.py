@@ -40,6 +40,7 @@
 # ============================================================================
 # Imports and constant definitions:
 # ============================================================================
+from __future__ import absolute_import
 import xml.dom.minidom
 
 # secure version of python's random:
@@ -55,6 +56,7 @@ from plonevotecryptolib.PVCExceptions import InvalidPloneVoteCryptoFileError, \
                                              IncompatibleCiphertextError
 import plonevotecryptolib.utilities.serialize as serialize
 from plonevotecryptolib.EGCryptoSystem import EGCryptoSystem
+from six.moves import range
 
 # ============================================================================
     
@@ -175,7 +177,7 @@ class ThresholdPrivateKey:
         
         # Remember that prime is of the form p = 2*q + 1, with q prime.
         # (By construction, see EGCryptoSystem)
-        q = (prime - 1)/2
+        q = (prime - 1)//2
         
         # We will need a random number generator for the proofs of partial 
         # decryption.
@@ -221,10 +223,10 @@ class ThresholdPrivateKey:
             # considered as the partial public key of trustee j and the value 
             # of the later is unavailable at decryption combination time).
             sha256 =  Crypto.Hash.SHA256.new()
-            sha256.update(hex(a))
-            sha256.update(hex(b))
-            sha256.update(hex(pow(generator, 2*key, prime)))
-            sha256.update(hex(value))
+            sha256.update(hex(a).encode())
+            sha256.update(hex(b).encode())
+            sha256.update(hex(pow(generator, 2*key, prime)).encode())
+            sha256.update(hex(value).encode())
             c = int(sha256.hexdigest(),16)
             
             # t = s + 2P(j)*c mod p-1 (P(j): trustee j's threshold private key)
@@ -334,7 +336,7 @@ class ThresholdPrivateKey:
         # Deserialize the ThresholdPrivateKey instance from file
         try:
             data = serializer.deserialize_from_file(filename)
-        except serialize.InvalidSerializeDataError, e:
+        except serialize.InvalidSerializeDataError as e:
             # Convert the exception to an InvalidPloneVoteCryptoFileError
             raise InvalidPloneVoteCryptoFileError(filename, 
                 "File \"%s\" does not contain a valid threshold private key. " \

@@ -43,6 +43,7 @@
 # Imports and constant definitions:
 # ============================================================================
 
+from __future__ import absolute_import
 import xml.dom.minidom
 
 # We use pycrypto (>= 2.1.0) to generate probable primes (pseudo-primes that 
@@ -115,7 +116,7 @@ def _is_safe_prime(p, probability=params.FALSE_PRIME_PROBABILITY):
         if(p % 2 == 0): 
             return False
         
-        q = (p - 1)/2
+        q = (p - 1)//2
         
         # q first to shortcut the most common False case
         return (Crypto.Util.number.isPrime(q, false_positive_prob=probability) 
@@ -227,7 +228,7 @@ def _is_generator(p, g):
         if(not (1 <= g <= (p - 1))):    # g must be an element in Z_{p}^{*}
             return False
         
-        q = (p - 1) / 2        # Since p = 2q + 1
+        q = (p - 1) // 2        # Since p = 2q + 1
         if(pow(g, 2, p) == 1):
             return False
         elif(pow(g, q, p) == 1):
@@ -481,7 +482,7 @@ class EGCryptoSystem:
                            Must be a multiple of eight (ie. expressible in 
                            bytes).
             prime::long -- A nbits-long safe prime 
-                           (that is (prime-1)/2 is also prime).
+                           (that is (prime-1)//2 is also prime).
             generator:long -- A generator of the Z_{p}^{*} cyclic group.
                            
         Throws:
@@ -874,7 +875,7 @@ class EGStub:
         # Deserialize the EGStub instance from file
         try:
             data = serializer.deserialize_from_file(filename)
-        except serialize.InvalidSerializeDataError, e:
+        except serialize.InvalidSerializeDataError as e:
             # Convert the exception to an InvalidPloneVoteCryptoFileError
             raise InvalidPloneVoteCryptoFileError(filename, \
                 "File \"%s\" does not contain a valid cryptosystem. The " \
@@ -889,7 +890,7 @@ class EGStub:
             nbits = int(inner_elems["nbits"])
             prime = int(inner_elems["prime"], 16)
             generator = int(inner_elems["generator"], 16)
-        except ValueError, e:
+        except ValueError as e:
             raise InvalidPloneVoteCryptoFileError(filename, \
                 "File \"%s\" does not contain a valid cryptosystem. The " \
                 "stored values for nbits, prime and generator are not all " \

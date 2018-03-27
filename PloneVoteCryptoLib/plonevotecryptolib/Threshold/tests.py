@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 # ToDo: Turn this into an actual test case / doctest
 
+from __future__ import absolute_import
+from __future__ import print_function
 from plonevotecryptolib.EGCryptoSystem import EGCryptoSystem as egcs
 from plonevotecryptolib.Threshold.ThresholdEncryptionSetUp import ThresholdEncryptionSetUp as tesu
 from plonevotecryptolib.Threshold.ThresholdDecryptionCombinator import ThresholdDecryptionCombinator
+from six.moves import range
 
 cs = egcs.new()
 
@@ -54,4 +57,4 @@ combinator = ThresholdDecryptionCombinator(t_public_key, ciphertext, 5, 3)
 for i in range(0,3):
 	combinator.add_partial_decryption(i, partial_decryptions[i])
 
-print combinator.decrypt_to_text()
+print(combinator.decrypt_to_text())

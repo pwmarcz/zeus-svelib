@@ -28,6 +28,8 @@
 # THE SOFTWARE.
 # ============================================================================
 
+from __future__ import absolute_import
+from __future__ import print_function
 import sys
 import getopt
 
@@ -40,7 +42,7 @@ def print_usage():
 	"""
 	Prints the tool's usage message
 	"""
-	print """USAGE:
+	print("""USAGE:
 		  
 		  plonevote.gen_cryptosys.py --nbits=N --name="..." --description="..." filename
 		  
@@ -57,7 +59,7 @@ def print_usage():
 		  	filename : the name of the file to which to save the newly generated cryptosystem.
 		  	
 		  	--help|-h : Shows this message
-		  """
+		  """)
 	
 def run_tool(nbits, filename, name, description):
 	"""
@@ -65,14 +67,14 @@ def run_tool(nbits, filename, name, description):
 	"""
 	# Define callbacks for the TaskMonitor for progress monitoring
 	def cb_task_start(task):
-		print task.task_name + ":"
+		print(task.task_name + ":")
 
 	def cb_task_progress(task):
 		sys.stdout.write(".")
 		sys.stdout.flush()
 
 	def cb_task_end(task):
-		print ""
+		print("")
 	
 	# Create new TaskMonitor and register the callbacks
 	taskmon = TaskMonitor()
@@ -84,17 +86,17 @@ def run_tool(nbits, filename, name, description):
 	try:
 		cryptosys = EGCryptoSystem.new(nbits, task_monitor = taskmon)
 	except KeyLengthTooLowError:
-		print "ERROR: The given bit size does not meet PloneVoteCryptoLib "\
-			  "minimum security requirements (too short)."
+		print("ERROR: The given bit size does not meet PloneVoteCryptoLib "\
+			  "minimum security requirements (too short).")
 	except KeyLengthNonBytableError:
-		print "ERROR: The given bit size must be a multiple of 8."
+		print("ERROR: The given bit size must be a multiple of 8.")
 	
 	# Save the cryptosystem to file
-	print "\nSaving cryptosystem to %s..." % filename,
+	print("\nSaving cryptosystem to %s..." % filename, end=' ')
 	
 	cryptosys.to_file(name, description, filename)
 	
-	print "SAVED.\n"
+	print("SAVED.\n")
 
 def main():
 	"""
@@ -103,9 +105,9 @@ def main():
     # parse command line options
 	try:
 		opts, args = getopt.getopt(sys.argv[1:], 'n', ['nbits=', 'name=', 'description='])
-	except getopt.error, msg:
-		print msg
-		print "for help use --help"
+	except getopt.error as msg:
+		print(msg)
+		print("for help use --help")
 		sys.exit(2)
 	
 	# process options
@@ -121,13 +123,13 @@ def main():
 		elif o == "--description":
 			description = a
 		else:
-			print "ERROR: Invalid argument: %d=%d\n" % (o, a)
+			print("ERROR: Invalid argument: %d=%d\n" % (o, a))
 			print_usage()
 			sys.exit(2)
        		
     # process arguments
 	if(len(args) != 1):
-		print "ERROR: Invalid arguments.\n" 
+		print("ERROR: Invalid arguments.\n") 
 		print_usage()
 		sys.exit(2)
     
@@ -140,7 +142,7 @@ def main():
 		try:
 			nbits = int(nbits_str)
 		except ValueError:
-			print "ERROR: %d is not a valid number of bits.\n" % nbit_str 
+			print("ERROR: %d is not a valid number of bits.\n" % nbit_str) 
 			print_usage()
 			sys.exit(2)
 	

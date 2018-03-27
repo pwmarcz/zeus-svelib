@@ -41,6 +41,7 @@
 # ============================================================================
 
 # Standard library imports
+from __future__ import absolute_import
 import unittest
 import os
 import tempfile
@@ -58,6 +59,7 @@ from plonevotecryptolib.utilities.TaskMonitor import TaskMonitor
 # Get Counter and Logger from TestTaskMonitor
 from plonevotecryptolib.tests.unit.utilities.TestTaskMonitor import \
                                         (Counter as Counter, Logger as Logger)
+from six.moves import range
     
 # ============================================================================
 # Helper functions and other definitions:
