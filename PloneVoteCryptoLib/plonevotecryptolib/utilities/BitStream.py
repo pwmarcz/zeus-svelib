@@ -156,7 +156,7 @@ class BitStream:
             "Negative value passed to seek(). Seeking before the bitstream's "
             "beginning is not permitted.")
         
-        self._current_cell = pos / self._cell_size
+        self._current_cell = pos // self._cell_size
         self._current_cell_bit = pos % self._cell_size
         
         assert self._current_cell < len(self._cells), \
@@ -262,7 +262,7 @@ class BitStream:
         
         # Now lets fill all aligned cells:
         remaining_bit_length = bit_length - current_cell_space_left
-        full_cells = remaining_bit_length / self._cell_size
+        full_cells = remaining_bit_length // self._cell_size
         
         # Remove unaligned trailing bits to ease calculations
         # Remember to store them in order to append them at the end
@@ -426,7 +426,7 @@ class BitStream:
                              "from one or more bytes.")
         
         s = ""
-        bytes = bit_length / 8
+        bytes = bit_length // 8
         for b in range(0, bytes):
             s += chr(self.get_byte())
         
@@ -483,7 +483,7 @@ class BitStream:
         # to)
         bit_pos = 0    # The current bit position in the base64 data
         while(bit_pos < length):
-            c = base64_data[bit_pos / 6]
+            c = base64_data[bit_pos // 6]
             try:
                 val = _base64_decoding_table[c]
             except KeyError:
@@ -542,7 +542,7 @@ class BitStream:
             padding_bits = 24 - remainder
         
         # Get all complete characters, without need for padding
-        for i in range(0, bit_length / 6):
+        for i in range(0, bit_length // 6):
             base64_data += _base64_encoding_table[self.get_num(6)]
         
         # Get "partial character" bits
@@ -559,7 +559,7 @@ class BitStream:
                               "bits in order to be translatable into base64 " \
                               "encoded characters of padding."
                               
-        padding_chars = padding_bits / 6
+        padding_chars = padding_bits // 6
         for i in range(0, padding_chars):
             base64_data += "="
             
@@ -615,7 +615,7 @@ class BitStream:
                              "hexadecimal number must be a multiple of 4.")    
                              
         hex_str = ""
-        for i in range(0, bit_length / 4):
+        for i in range(0, bit_length // 4):
             hex_str += _hex_encoding_table[self.get_num(4)]
             
         return hex_str

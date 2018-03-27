@@ -116,7 +116,7 @@ def _is_safe_prime(p, probability=params.FALSE_PRIME_PROBABILITY):
         if(p % 2 == 0): 
             return False
         
-        q = (p - 1)/2
+        q = (p - 1)//2
         
         # q first to shortcut the most common False case
         return (Crypto.Util.number.isPrime(q, false_positive_prob=probability) 
@@ -228,7 +228,7 @@ def _is_generator(p, g):
         if(not (1 <= g <= (p - 1))):    # g must be an element in Z_{p}^{*}
             return False
         
-        q = (p - 1) / 2        # Since p = 2q + 1
+        q = (p - 1) // 2        # Since p = 2q + 1
         if(pow(g, 2, p) == 1):
             return False
         elif(pow(g, q, p) == 1):
@@ -482,7 +482,7 @@ class EGCryptoSystem:
                            Must be a multiple of eight (ie. expressible in 
                            bytes).
             prime::long -- A nbits-long safe prime 
-                           (that is (prime-1)/2 is also prime).
+                           (that is (prime-1)//2 is also prime).
             generator:long -- A generator of the Z_{p}^{*} cyclic group.
                            
         Throws:

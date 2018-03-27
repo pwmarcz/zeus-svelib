@@ -177,7 +177,7 @@ class ThresholdPrivateKey:
         
         # Remember that prime is of the form p = 2*q + 1, with q prime.
         # (By construction, see EGCryptoSystem)
-        q = (prime - 1)/2
+        q = (prime - 1)//2
         
         # We will need a random number generator for the proofs of partial 
         # decryption.

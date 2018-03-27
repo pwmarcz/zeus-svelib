@@ -125,8 +125,8 @@ class TestEGCryptoSystem(unittest.TestCase):
         self.assertTrue(Crypto.Util.number.isPrime(prime))
         
         # Furthermore, prime must be a SAFE PRIME, which means that 
-        # q = (prime-1)/2 is also prime
-        self.assertTrue(Crypto.Util.number.isPrime((prime-1)/2))
+        # q = (prime-1)//2 is also prime
+        self.assertTrue(Crypto.Util.number.isPrime((prime-1)//2))
         
         # Finally,cryptosys.get_generator should return a generator of 
         # Z_{prime}^*
@@ -135,11 +135,11 @@ class TestEGCryptoSystem(unittest.TestCase):
         # First, g must be an element of the group
         self.assertTrue(1 <= g < prime)
         
-        # g not generator => g^{2} = 1 mod p or g^{(prime-1)/2} = 1 mod p
+        # g not generator => g^{2} = 1 mod p or g^{(prime-1)//2} = 1 mod p
         # see. I.N. Herstein pg. 35, "Handbook of Applied Cryptography" 
         #      Algorithm 4.80
         # and the documentation string for EGCryptoSystem._is_generator
-        q = (prime - 1) / 2
+        q = (prime - 1) // 2
         self.assertFalse(pow(g, 2, prime) == 1)
         self.assertFalse(pow(g, q, prime) == 1)
     
@@ -394,7 +394,7 @@ Task completed: \"Obtain a generator for the cyclic group\"
         """
         Test the EGCryptoSystem.load(...) method when used to load an invalid 
         cryptosystem with a prime parameter that is prime but not a SAFE prime
-        (ie. (prime-1)/2 is composite. 
+        (ie. (prime-1)//2 is composite. 
         """
         # Get our usual (correct) cryptosystem
         cryptosys = get_cryptosys()
@@ -405,7 +405,7 @@ Task completed: \"Obtain a generator for the cyclic group\"
         
         # Generate a prime of size nbits which is *NOT* a safe prime:
         prime = Crypto.Util.number.getPrime(nbits)
-        while(Crypto.Util.number.isPrime((prime-1)/2)):
+        while(Crypto.Util.number.isPrime((prime-1)//2)):
             prime = Crypto.Util.number.getPrime(nbits)
         
         # Check that EGCryptoSystem.load(...) with the (now) invalid parameters 
@@ -435,8 +435,8 @@ Task completed: \"Obtain a generator for the cyclic group\"
         
         # Now, lets try an element of the group that is NOT a generator 
         # specifically: g^2 where g is a generator (this is not a generator 
-        # because, since g^(p-1) = 1 mod p, (g^2)^((p-1)/2) = 1 mod p with 
-        # ((p-1)/2) < p.
+        # because, since g^(p-1) = 1 mod p, (g^2)^((p-1)//2) = 1 mod p with 
+        # ((p-1)//2) < p.
         generator = pow(cryptosys.get_generator(), 2, prime)
         
         # Check that EGCryptoSystem.load(...) with the (now) invalid parameters 
@@ -444,9 +444,9 @@ Task completed: \"Obtain a generator for the cyclic group\"
         self.assertRaises(NotAGeneratorError, EGCryptoSystem.load, \
                           nbits, prime, generator)
         
-        # For similar reasons, g^((p-1)/2) is also not a generator, we try it 
+        # For similar reasons, g^((p-1)//2) is also not a generator, we try it 
         # as well (mostly to increase our statement coverage)
-        generator = pow(cryptosys.get_generator(), (prime-1)/2, prime)
+        generator = pow(cryptosys.get_generator(), (prime-1)//2, prime)
         self.assertRaises(NotAGeneratorError, EGCryptoSystem.load, \
                           nbits, prime, generator)
     

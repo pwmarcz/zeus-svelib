@@ -363,7 +363,7 @@ class Ciphertext:
         length = bitstream.get_length()
         
         #     number of gamma and delta blocks in the bitstream:
-        blocks = length / (nbits * 2)
+        blocks = length // (nbits * 2)
         
         for i in range(0, blocks):
             gamma_val = bitstream.get_num(nbits)

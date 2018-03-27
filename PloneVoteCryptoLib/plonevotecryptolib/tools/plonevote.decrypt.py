@@ -121,7 +121,7 @@ def run_tool(key_file, in_file, out_file):
 	length = bitstream.get_num(64)
 	
 	try:
-		for i in range(0, length / 8):
+		for i in range(0, length // 8):
 			byte = bitstream.get_byte()
 			out_f.write(chr(byte))
 	except Exception as e:

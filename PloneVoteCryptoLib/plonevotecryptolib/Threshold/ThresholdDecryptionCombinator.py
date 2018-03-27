@@ -371,7 +371,7 @@ class ThresholdDecryptionCombinator:
 		nbits = self.cryptosystem.get_nbits()
 		prime = self.cryptosystem.get_prime()
 		#  prime = 2q + 1 with q prime by construction (see EGCryptoSystem).
-		q = (prime - 1) / 2
+		q = (prime - 1) // 2
 		
 		# See PublicKey.encrypt_bitstream for why we use nbits - 1 as the block 
 		# size.
