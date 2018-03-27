@@ -634,7 +634,7 @@ class TestBitStream(unittest.TestCase):
             r_invalid_bit_string += random.choice(('0','1'))
 
         r_invalid_bit_string += \
-            random.choice(string.letters + "23456789_-/\\" + string.whitespace)
+            random.choice(string.ascii_letters + "23456789_-/\\" + string.whitespace)
 
         for i in range(0,num_bits - pos_wrong_char - 1):
             r_invalid_bit_string += random.choice(('0','1'))
@@ -748,7 +748,7 @@ class TestBitStream(unittest.TestCase):
         non_hex_char = "0"
         while(non_hex_char in valid_hex_digits):
             non_hex_char = \
-               random.choice(string.letters + string.digits + string.whitespace)
+               random.choice(string.ascii_letters + string.digits + string.whitespace)
 
         r_invalid_hex_string += non_hex_char
 
