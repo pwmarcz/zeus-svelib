@@ -35,6 +35,7 @@ This library provides all basic cryptographic operations required by the PloneVo
       tests_require=[
           'pytest',
           'pytest-coverage',
+          'pytest-xdist',
       ],
       entry_points="""
       # -*- Entry points: -*-
