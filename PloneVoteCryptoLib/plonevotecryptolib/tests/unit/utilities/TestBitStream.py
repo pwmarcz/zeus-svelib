@@ -36,12 +36,14 @@
 # THE SOFTWARE.
 # ============================================================================
 
+from __future__ import absolute_import
 import unittest
 import random
 import string
 from plonevotecryptolib.utilities.BitStream import BitStream, \
                                                    NotEnoughBitsInStreamError, \
                                                    SeekOutOfRangeError
+from six.moves import range
 
 class TestBitStream(unittest.TestCase):
     """
@@ -1133,7 +1135,7 @@ class TestBitStream(unittest.TestCase):
             
             try:
                 raise ExceptionCls(message)
-            except ExceptionCls, e:
+            except ExceptionCls as e:
                 was_raised = True
                 self.assertEqual(str(e), message)
                 

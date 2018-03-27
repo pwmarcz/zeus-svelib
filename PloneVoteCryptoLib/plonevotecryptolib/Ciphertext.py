@@ -57,6 +57,7 @@
 # ============================================================================
 # Imports and constant definitions:
 # ============================================================================
+from __future__ import absolute_import
 import xml.dom.minidom
 
 import Crypto.Hash.SHA256    # sha256 not available in python 2.4 standard lib
@@ -64,6 +65,7 @@ import Crypto.Hash.SHA256    # sha256 not available in python 2.4 standard lib
 from plonevotecryptolib.PVCExceptions import InvalidPloneVoteCryptoFileError
 from plonevotecryptolib.utilities.BitStream import BitStream
 import plonevotecryptolib.utilities.serialize as serialize
+from six.moves import range
 # ============================================================================
 
 Ciphertext_serialize_structure_definition = {
@@ -332,7 +334,7 @@ class Ciphertext:
         # Deserialize the Ciphertext instance from file
         try:
             data = serializer.deserialize_from_file(filename)
-        except serialize.InvalidSerializeDataError, e:
+        except serialize.InvalidSerializeDataError as e:
             # Convert the exception to an InvalidPloneVoteCryptoFileError
             raise InvalidPloneVoteCryptoFileError(filename, 
                 "File \"%s\" does not contain a valid ciphertext. The " \

@@ -28,6 +28,8 @@
 # THE SOFTWARE.
 # ============================================================================
 
+from __future__ import absolute_import
+from __future__ import print_function
 import sys
 import os.path
 import getopt
@@ -41,7 +43,7 @@ def print_usage():
 	"""
 	Prints the tool's usage message
 	"""
-	print """USAGE:
+	print("""USAGE:
 		  
 		  plonevote.encrypt.py --key=public_key.pvpubkey --in=file.ext --out=file.pvencrypted
 		  
@@ -56,26 +58,26 @@ def print_usage():
 		  	--out=file.pvencrypted	: The destination (output) file that will contain the encrypted data.
 		  	
 		  	--help|-h : Shows this message
-		  """
+		  """)
 	
 def run_tool(key_file, in_file, out_file):
 	"""
 	Runs the plonevote.encrypt tool and encrypts in_file into out_file.
 	"""
 	# Load the public key
-	print "Loading public key..."
+	print("Loading public key...")
 	try:
 		public_key = PublicKey.from_file(key_file)
-	except InvalidPloneVoteCryptoFileError, e:
-		print "Invalid public key file (%s): %s" % (key_file, e.msg)
+	except InvalidPloneVoteCryptoFileError as e:
+		print("Invalid public key file (%s): %s" % (key_file, e.msg))
 		sys.exit(2)
 	
 	# Open the input file
-	print "Reading input file..."
+	print("Reading input file...")
 	try:
 		in_f = open(in_file, 'rb')
-	except Exception, e:
-		print "Problem while opening input file %s: %s" % (in_file, e)
+	except Exception as e:
+		print("Problem while opening input file %s: %s" % (in_file, e))
 	
 	# Read the whole file into a bitstream
 	bitstream = BitStream()
@@ -86,8 +88,8 @@ def run_tool(key_file, in_file, out_file):
 			for byte in bytes:
 				bitstream.put_byte(ord(byte))
 			bytes = in_f.read(read_quantum)
-	except Exception, e:
-		print "Problem while reading from input file %s: %s" % (in_file, e)
+	except Exception as e:
+		print("Problem while reading from input file %s: %s" % (in_file, e))
 	
 	in_f.close()
 	
@@ -102,8 +104,8 @@ def run_tool(key_file, in_file, out_file):
 								short_in_filename[-20,-1]
 	
 	def cb_task_percent_progress(task):
-		print "  %.2f%% of %s encrypted..." % \
-				(task.get_percent_completed(), short_in_filename)
+		print("  %.2f%% of %s encrypted..." % \
+				(task.get_percent_completed(), short_in_filename))
 	
 	# Create new TaskMonitor and register the callbacks
 	taskmon = TaskMonitor()
@@ -111,14 +113,14 @@ def run_tool(key_file, in_file, out_file):
 											 percent_span = 5)
 	
 	# Encrypt bitstream
-	print "Encrypting..."
+	print("Encrypting...")
 	ciphertext = public_key.encrypt_bitstream(bitstream, task_monitor = taskmon)
 	
 	# Save the ciphertext to the output file
 	try:
 		ciphertext.to_file(out_file)
-	except Exception, e:
-		print "Problem while saving the output file %s: %s" % (in_file, e.msg)
+	except Exception as e:
+		print("Problem while saving the output file %s: %s" % (in_file, e.msg))
 	
 		
 
@@ -129,9 +131,9 @@ def main():
     # parse command line options
 	try:
 		opts, args = getopt.getopt(sys.argv[1:], 'n', ['key=', 'in=', 'out='])
-	except getopt.error, msg:
-		print msg
-		print "for help use --help"
+	except getopt.error as msg:
+		print(msg)
+		print("for help use --help")
 		sys.exit(2)
 	
 	# process options
@@ -147,7 +149,7 @@ def main():
 		elif o == "--out":
 			out_file = a
 		else:
-			print "ERROR: Invalid argument: %d=%d\n" % (o, a)
+			print("ERROR: Invalid argument: %d=%d\n" % (o, a))
 			print_usage()
 			sys.exit(2)
 	

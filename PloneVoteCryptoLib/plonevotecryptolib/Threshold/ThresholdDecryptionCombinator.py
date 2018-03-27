@@ -38,12 +38,14 @@
 # ============================================================================
 
 # Non crypto secure random, used only for shuffling lists of partial decryptions
+from __future__ import absolute_import
 import random
 
 import Crypto.Hash.SHA256	# sha256 is not available in python 2.4 standard lib
 
 from plonevotecryptolib.PVCExceptions import ElectionSecurityError
 from plonevotecryptolib.utilities.BitStream import BitStream
+from six.moves import range
 
 __all__ = ["ThresholdDecryptionCombinator", 
 		   "InsuficientPartialDecryptionsError"]

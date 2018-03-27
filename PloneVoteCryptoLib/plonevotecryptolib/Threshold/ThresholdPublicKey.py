@@ -37,6 +37,7 @@
 # Imports and constant definitions:
 # ============================================================================
 
+from __future__ import absolute_import
 import xml.dom.minidom
 
 import Crypto.Hash.SHA256  # sha256 is not available in python 2.4 standard lib
@@ -47,6 +48,7 @@ from plonevotecryptolib.PublicKey import PublicKey, \
 from plonevotecryptolib.EGCryptoSystem import EGCryptoSystem
 from plonevotecryptolib.PVCExceptions import InvalidPloneVoteCryptoFileError
 import plonevotecryptolib.utilities.serialize as serialize
+from six.moves import range
 # ============================================================================
 
 # ============================================================================
@@ -224,7 +226,7 @@ class ThresholdPublicKey(PublicKey):
         # Deserialize the ThresholdPublicKey instance from file
         try:
             data = serializer.deserialize_from_file(filename)
-        except serialize.InvalidSerializeDataError, e:
+        except serialize.InvalidSerializeDataError as e:
             # Convert the exception to an InvalidPloneVoteCryptoFileError
             raise InvalidPloneVoteCryptoFileError(filename, 
                 "File \"%s\" does not contain a valid threshold public key. " \
@@ -233,8 +235,7 @@ class ThresholdPublicKey(PublicKey):
                 
         # Verify that we are dealing with a threshold public key and not a 
         # single public key.
-        if(not \
-           data["PloneVotePublicKey"].has_key("ThresholdKeyInfo")):
+        if("ThresholdKeyInfo" not in data["PloneVotePublicKey"]):
             raise InvalidPloneVoteCryptoFileError(filename, 
                 "File \"%s\" does not contain a valid threshold public key. " \
                 "Instead it contains a single (non-threshold) public key" \

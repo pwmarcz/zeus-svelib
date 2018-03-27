@@ -175,7 +175,10 @@ world, this is just a toy example.
 # Imports and constant definitions:
 # ============================================================================
 
+from __future__ import absolute_import
 import xml.dom.minidom
+import six
+from six.moves import range
 
 __all__ = ["XMLSerializer", "InvalidSerializeStructureDefinitionError", 
            "InvalidSerializeDataError"]
@@ -398,7 +401,7 @@ def _check_data_matches_structure(sd_node, data_node):
     # First, lets check that all keys in the data have a corresponding 
     # definition in the structure dictionary:
     for key in data_node.keys():
-        if(not sd_node.has_key(key)):
+        if(key not in sd_node):
             # Construct the basic error message
             error_msg = "The given data doesn't match the corresponding " \
                 "serialize structure definition dictionary. An element named " \
@@ -407,7 +410,7 @@ def _check_data_matches_structure(sd_node, data_node):
                 "elements in the structure definition dictionary at the " \
                 "current level are: " % key
             # Append the list of valid elements at the current level
-            valid_elements = sd_node.keys()
+            valid_elements = list(sd_node.keys())
             for i in range(0, len(valid_elements) - 1):
                 error_msg += valid_elements[i] + ", "
             error_msg += valid_elements[len(valid_elements) - 1] + "."
@@ -421,7 +424,7 @@ def _check_data_matches_structure(sd_node, data_node):
                                         _parse_schema_tuple(schema)
                                         
         # Check if the name appears in the data:
-        if(not data_node.has_key(name)):
+        if(name not in data_node):
             if(min_occurrences == 0):
                 # If the schema allows for 0 occurrences of this key, 
                 # just continue
@@ -465,11 +468,11 @@ def _check_data_matches_structure(sd_node, data_node):
         if(sub_sd_node == None):
             # Two cases: either value is a string or a list of strings, both 
             # are fine. No other type is allowed.
-            if(isinstance(value, basestring)):
+            if(isinstance(value, six.string_types)):
                 pass
             elif(isinstance(value, list)):
                 for s in value:
-                    if(not isinstance(s, basestring)):
+                    if(not isinstance(s, six.string_types)):
                         raise InvalidSerializeDataError(\
                             "The given data doesn't match the corresponding " \
                             "serialize structure definition dictionary. " \
@@ -685,7 +688,7 @@ class XMLSerializer(BaseSerializer):
             # More than one different root element allowed by structure def
             structure_has_single_root = False
         else:
-            root_element_def_tuple = self.structure_definition.items()[0][1]
+            root_element_def_tuple = list(self.structure_definition.items())[0][1]
             (min_occurrences, max_occurrences, sd_node) = \
                             _parse_schema_tuple(root_element_def_tuple)
             if(max_occurrences != 1):
@@ -698,7 +701,7 @@ class XMLSerializer(BaseSerializer):
         if(structure_has_single_root):
             # Use the top level element of the structure as the document's 
             # root.
-            root_element_name, root_element_value = data.items()[0]
+            root_element_name, root_element_value = list(data.items())[0]
             self._write_to_dom_element(doc, doc, root_element_name, 
                                        root_element_value)
         else:
@@ -825,7 +828,7 @@ class XMLSerializer(BaseSerializer):
         named_nodes = {}
         for node in child_elements:
             name = node.tagName
-            if(not named_nodes.has_key(name)):
+            if(name not in named_nodes):
                 named_nodes[name] = []
             named_nodes[name].append(node)
             
@@ -878,7 +881,7 @@ class XMLSerializer(BaseSerializer):
             "A valid XML document must have a single root element."
         
         # Check for dummy root element in the XML
-        root_element_name = data.keys()[0]
+        root_element_name = list(data.keys())[0]
         if(root_element_name == DUMMY_ROOT_ELEMENT_NAME):
             # The root element is a dummy element, remove it
             if(not isinstance(data[root_element_name], dict)):

@@ -39,8 +39,10 @@
 # THE SOFTWARE.
 # ============================================================================
 
+from __future__ import absolute_import
 import unittest
 from plonevotecryptolib.utilities.TaskMonitor import TaskMonitor
+from six.moves import range
 
 # ============================================================================
 # Some example "TaskMonitor-enabled" functions:
@@ -220,7 +222,7 @@ class TestTaskMonitor(unittest.TestCase):
         
         # Now, we call the tme_search_in_list function with our task monitor, 
         # asking for the position of element 100 in range(0,300)
-        tme_search_in_list(range(0,300), 100, self.task_monitor)
+        tme_search_in_list(list(range(0,300)), 100, self.task_monitor)
         
         # counter1 should have been update 10 times, one for each 10 ticks of 
         # a total of 100 ticks (100 is the 100th element of range(0,300))

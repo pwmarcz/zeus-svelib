@@ -28,6 +28,8 @@
 # THE SOFTWARE.
 # ============================================================================
 
+from __future__ import absolute_import
+from __future__ import print_function
 import sys
 import getopt
 
@@ -38,7 +40,7 @@ def print_usage():
 	"""
 	Prints the tool's usage message
 	"""
-	print """USAGE:
+	print("""USAGE:
 		  
 		  plonevote.gen_keys.py --cryptosys=cryptosystem.pvcryptosys --private=private_key.pvprivkey --public=public_key.pvpubkey
 		  
@@ -53,7 +55,7 @@ def print_usage():
 		  	--public=public_key.pvpubkey  : The file in which to store the public key.
 		  	
 		  	--help|-h : Shows this message
-		  """
+		  """)
 	
 def run_tool(cryptosystem_filename, privkey_filename, pubkey_filename):
 	"""
@@ -62,22 +64,22 @@ def run_tool(cryptosystem_filename, privkey_filename, pubkey_filename):
 	# Load the cryptosystem
 	try:
 		cs_stub = EGStub.from_file(cryptosystem_filename)
-	except InvalidPloneVoteCryptoFileError, e:
-		print "Invalid cryptosystem file (%s): %s" % \
-			(cryptosystem_filename, e.msg)
+	except InvalidPloneVoteCryptoFileError as e:
+		print("Invalid cryptosystem file (%s): %s" % \
+			(cryptosystem_filename, e.msg))
 		sys.exit(2)
 	
 	if(not cs_stub.is_secure()):
-		print "The security (bit size) of the cryptosystem described by %s " \
+		print("The security (bit size) of the cryptosystem described by %s " \
 			  "is lower than the minimum allowed by the current " \
-			  "PloneVoteCryptoLib configuration."
+			  "PloneVoteCryptoLib configuration.")
 		sys.exit(2)
 	
 	try:
 		cryptosystem = cs_stub.to_cryptosystem()
-	except ParameterError, e:
-		print "Invalid cryptosystem file (%s): %s" % \
-			(cryptosystem_filename, e.msg)
+	except ParameterError as e:
+		print("Invalid cryptosystem file (%s): %s" % \
+			(cryptosystem_filename, e.msg))
 		sys.exit(2)
 	
 	# Generate the key pair
@@ -95,9 +97,9 @@ def main():
     # parse command line options
 	try:
 		opts, args = getopt.getopt(sys.argv[1:], 'n', ['cryptosys=', 'private=', 'public='])
-	except getopt.error, msg:
-		print msg
-		print "for help use --help"
+	except getopt.error as msg:
+		print(msg)
+		print("for help use --help")
 		sys.exit(2)
 	
 	# process options
@@ -113,7 +115,7 @@ def main():
 		elif o == "--public":
 			pubkey_filename = a
 		else:
-			print "ERROR: Invalid argument: %d=%d\n" % (o, a)
+			print("ERROR: Invalid argument: %d=%d\n" % (o, a))
 			print_usage()
 			sys.exit(2)
 	

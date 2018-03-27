@@ -35,6 +35,7 @@
 # ============================================================================
 
 # Standard library imports
+from __future__ import absolute_import
 import unittest
 
 # Main library PloneVoteCryptoLib imports
@@ -86,7 +87,7 @@ class TestPVCExceptions(unittest.TestCase):
                     raise ExceptionCls(*args)
                 else:
                     raise ExceptionCls(args)
-            except ExceptionCls, e:
+            except ExceptionCls as e:
                 was_raised = True
                 self.assertEqual(str(e), message)
                 
@@ -99,7 +100,7 @@ class TestPVCExceptions(unittest.TestCase):
         was_raised = False
         try:
             raise EGCSUnconstructedStateError()
-        except EGCSUnconstructedStateError, e:
+        except EGCSUnconstructedStateError as e:
             was_raised = True
             self.assertTrue(len(str(e)) > 0)
 

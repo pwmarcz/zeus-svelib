@@ -32,6 +32,9 @@
 # THE SOFTWARE.
 # ============================================================================
 
+from __future__ import absolute_import
+import six
+from six.moves import range
 __all__ = ["BitStream", "NotEnoughBitsInStreamError", "SeekOutOfRangeError"]
 
 _CELL_SIZE = 32
@@ -390,7 +393,7 @@ class BitStream:
         # The following line prevents the problem with python unicode objects 
         # where ord(string[i]) may return a number larger than 256.
         # UTF8 encoding ensures byte sized "characters".
-        if isinstance(string, unicode):
+        if isinstance(string, six.text_type):
             string = string.encode('utf-8')
         
         for char in string:

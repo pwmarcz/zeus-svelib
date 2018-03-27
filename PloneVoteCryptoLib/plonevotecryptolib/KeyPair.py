@@ -35,6 +35,7 @@
 # ============================================================================
 
 # secure version of python's random:
+from __future__ import absolute_import
 from Crypto.Random.random import StrongRandom
 
 from plonevotecryptolib.EGCryptoSystem import EGCryptoSystem

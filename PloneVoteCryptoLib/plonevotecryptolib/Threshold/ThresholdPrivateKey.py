@@ -40,6 +40,7 @@
 # ============================================================================
 # Imports and constant definitions:
 # ============================================================================
+from __future__ import absolute_import
 import xml.dom.minidom
 
 # secure version of python's random:
@@ -55,6 +56,7 @@ from plonevotecryptolib.PVCExceptions import InvalidPloneVoteCryptoFileError, \
                                              IncompatibleCiphertextError
 import plonevotecryptolib.utilities.serialize as serialize
 from plonevotecryptolib.EGCryptoSystem import EGCryptoSystem
+from six.moves import range
 
 # ============================================================================
     
@@ -334,7 +336,7 @@ class ThresholdPrivateKey:
         # Deserialize the ThresholdPrivateKey instance from file
         try:
             data = serializer.deserialize_from_file(filename)
-        except serialize.InvalidSerializeDataError, e:
+        except serialize.InvalidSerializeDataError as e:
             # Convert the exception to an InvalidPloneVoteCryptoFileError
             raise InvalidPloneVoteCryptoFileError(filename, 
                 "File \"%s\" does not contain a valid threshold private key. " \

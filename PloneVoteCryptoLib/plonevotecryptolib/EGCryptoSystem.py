@@ -43,6 +43,7 @@
 # Imports and constant definitions:
 # ============================================================================
 
+from __future__ import absolute_import
 import xml.dom.minidom
 
 # We use pycrypto (>= 2.1.0) to generate probable primes (pseudo-primes that 
@@ -874,7 +875,7 @@ class EGStub:
         # Deserialize the EGStub instance from file
         try:
             data = serializer.deserialize_from_file(filename)
-        except serialize.InvalidSerializeDataError, e:
+        except serialize.InvalidSerializeDataError as e:
             # Convert the exception to an InvalidPloneVoteCryptoFileError
             raise InvalidPloneVoteCryptoFileError(filename, \
                 "File \"%s\" does not contain a valid cryptosystem. The " \
@@ -889,7 +890,7 @@ class EGStub:
             nbits = int(inner_elems["nbits"])
             prime = int(inner_elems["prime"], 16)
             generator = int(inner_elems["generator"], 16)
-        except ValueError, e:
+        except ValueError as e:
             raise InvalidPloneVoteCryptoFileError(filename, \
                 "File \"%s\" does not contain a valid cryptosystem. The " \
                 "stored values for nbits, prime and generator are not all " \

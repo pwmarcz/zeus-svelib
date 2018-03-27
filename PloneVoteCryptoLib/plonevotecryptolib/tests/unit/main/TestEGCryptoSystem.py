@@ -42,6 +42,7 @@
 # ============================================================================
 
 # Standard library imports
+from __future__ import absolute_import
 import unittest
 import copy
 import os

@@ -37,6 +37,7 @@
 # THE SOFTWARE.
 # ============================================================================
 
+from __future__ import absolute_import
 import math
 
 import Crypto.Hash.SHA256
@@ -51,6 +52,7 @@ from plonevotecryptolib.Threshold.ThresholdKeyPair import ThresholdKeyPair
 from plonevotecryptolib.PVCExceptions import *
 
 from plonevotecryptolib.utilities.BitStream import BitStream
+from six.moves import range
 
 
 class ThresholdEncryptionSetUp:

@@ -39,11 +39,13 @@
 # ============================================================================
 
 # Standard library imports
+from __future__ import absolute_import
 import unittest
 import random
 
 # Main library PloneVoteCryptoLib imports
 from plonevotecryptolib.Threshold.Polynomial import CoefficientsPolynomial
+from six.moves import range
 
 # ============================================================================
 # The actual test cases:

@@ -45,6 +45,7 @@
 # ============================================================================
 
 # secure version of python's random:
+from __future__ import absolute_import
 from Crypto.Random.random import StrongRandom
 
 # Use configuration parameters from params.py
@@ -56,6 +57,7 @@ from plonevotecryptolib.Mixnet.CiphertextReencryptionInfo import CiphertextReenc
 from plonevotecryptolib.PVCExceptions import IncompatibleCiphertextCollectionError
 from plonevotecryptolib.PVCExceptions import IncompatibleReencryptionInfoError
 from plonevotecryptolib.PVCExceptions import IncompatibleCiphertextCollectionMappingError
+from six.moves import range
 
 def _random_shuffle_in_place(strong_random, l):
 	"""
@@ -69,7 +71,7 @@ def _random_shuffle_in_place(strong_random, l):
 
 	# Choose a random item (without replacement) until all the items have been
 	# chosen.
-	for i in xrange(len(l)):
+	for i in range(len(l)):
 		p = strong_random.randint(0, len(items) - 1)
 		l[i] = items[p]
 		del items[p]
@@ -242,7 +244,7 @@ class CiphertextCollectionMapping:
 			
 			try:
 				reencrypted_ciphertext = reencryption.apply(ciphertext)
-			except IncompatibleCiphertextError, e:
+			except IncompatibleCiphertextError as e:
 				raise IncompatibleCiphertextCollectionError( \
 					"The given collection is incompatible with this mapping. " \
 					"The ciphertext #%d in the collection cannot be " \
@@ -409,7 +411,7 @@ class CiphertextCollectionMapping:
 			# a-to-b.
 			try:
 				ctob_reencryption = atob_reencryption.subtract(atoc_reencryption)
-			except IncompatibleReencryptionInfoError, e:
+			except IncompatibleReencryptionInfoError as e:
 				raise IncompatibleCiphertextCollectionMappingError( \
 					"The given ciphertext collection mappings are incompatible"\
 					" for rebase. It is likely that the origin collection for "\
